@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from 'routes_module'
+import Routes from './routes_module'
 import { BrowserRouter as Router } from 'react-router-dom'
-import TopBar from 'components/topBar'
+import TopBar from './components/topBar'
 
 const App = () => {
   return (
