@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import React from "react";
 
 import GlobalFeed from './pages/globalFeed'
-import Article from 'pages/article'
+import Article from './pages/article'
 import Authentification from './pages/authentification'
 
 export default () => {
