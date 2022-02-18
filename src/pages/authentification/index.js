@@ -1,40 +1,30 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useFetch, { doFetch } from "../../hooks/useFetch";
 
 const Authentification = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [isSubmiting, setIsSubmiting] = useState(false)
+    const [{ isLoading, response, error }, doFetch] = useFetch('/users/login')
+
+    console.log("fff", isLoading, response, error)
 
     const handleSubmit = event => {
         event.preventDefault()
-        setIsSubmiting(true)
-    }
-
-    useEffect(() => {
-        if (!isSubmiting) {
-            return
-        }
-        axios('https://conduit.productionready.io/api/users/login', {
-            method: 'POST',
-            data: {
-                user: {
-                    email: 'wfwefwef@bk.ru',
-                    password: '12345678'
+        doFetch(
+            {
+                method: 'POST',
+                data: {
+                    user: {
+                        email: 'wfwefwef@bk.ru',
+                        password: '12345678'
+                    }
                 }
             }
-        })
-            .then(res => { 
-                console.log('success', res) 
-                setIsSubmiting(false)
-            })
-            .catch(error => { 
-                console.log('error', error) 
-                setIsSubmiting(false)
-            })
+        )
     }
-    )
+
+
     return (
         <div className="auth-page">
             <div className="container page">
@@ -64,7 +54,7 @@ const Authentification = () => {
                                         onChange={e => setPassword(e.target.value)}
                                     />
                                 </fieldset>
-                                <button className="btn btn-lg btn-primary pull-xs-right" type="submit" disabled={isSubmiting}>
+                                <button className="btn btn-lg btn-primary pull-xs-right" type="submit" disabled={isLoading}>
                                     Sign In
                                 </button>
                             </fieldset>
