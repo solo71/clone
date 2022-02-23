@@ -3,13 +3,13 @@ import axios from "axios";
 
 
 export default (url) => {
-    const baseUrl='https://conduit.productionready.io/api/'
+    const baseUrl = 'https://conduit.productionready.io/api/'
     const [isLoading, setIsLoading] = useState(false)
     const [response, setResponse] = useState(null)
     const [error, setError] = useState(null)
-    const[options,setOptions] =useState({})
+    const [options, setOptions] = useState({})
 
-    const doFetch = (options = {}) => { 
+    const doFetch = (options = {}) => {
         setOptions(options)
         setIsLoading(true)
     }
@@ -17,7 +17,7 @@ export default (url) => {
         if (!isLoading) {
             return
         }
-        axios(baseUrl+url, options)
+        axios(baseUrl + url, options)
             .then(res => {
                 console.log('success', url)
                 setIsLoading(false)
@@ -28,7 +28,7 @@ export default (url) => {
                 setIsLoading(false)
                 setError(error.response.data)
             })
-    },[isLoading]
+    }, [isLoading]
     )
     return [{ error, response, isLoading }, doFetch]
 }
