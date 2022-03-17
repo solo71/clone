@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { CurrentUserContext } from "../../contexts/currentUser";
+import BackendErrorMessage from "./components/BackendErrorMessage";
 
 const Authentification = () => {
     const [email, setEmail] = useState('')
@@ -15,14 +16,12 @@ const Authentification = () => {
     const pageTitle = isLogin ? 'Sign in' : 'Sign up'
     const descriptionLink = isLogin ? '/register' : '/login'
     const descriptionText = isLogin ? 'Need an account?' : 'Have an account?'
-    const [{ isLoading, response, }, doFetch] = useFetch(apiUrl)
+    const [{ isLoading, response, error}, doFetch] = useFetch(apiUrl)
     let navigate = useNavigate();
     const [, setToken] = useLocalStorage('token')
     const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext)
 
-    console.log('CurrentUserState', currentUserState)
-
-    const handleSubmit = event => {
+     const handleSubmit = event => {
         event.preventDefault()
         const user = isLogin ? { email, password } : { email, password, username }
         doFetch(
@@ -47,7 +46,7 @@ const Authentification = () => {
             isLoggedIn: true,
             currentUser: response.user
             })) 
-}, [response, setToken])
+}, [response, setToken, setCurrentUserState])
 
 if (isSuccessfulSubmit) {
     navigate('/')
@@ -62,6 +61,7 @@ return (
                         <Link to={descriptionLink}>{descriptionText}</Link>
                     </p>
                     <form onSubmit={handleSubmit}>
+                        {error && <BackendErrorMessage backendError={error.errors} />}
                         <fieldset>
                             {!isLogin && (
                                 <fieldset className="form-group">
