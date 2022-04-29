@@ -46,9 +46,11 @@ const Authentification = () => {
     }));
   }, [response, setToken, setCurrentUserState]);
 
-  if (isSuccessfulSubmit) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (isSuccessfulSubmit) {
+      navigate("/");
+    }
+  }, [isSuccessfulSubmit, navigate]);
   return (
     <div className="auth-page">
       <div className="container page">
